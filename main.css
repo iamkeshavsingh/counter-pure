@@ -1,0 +1,32 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 300px;
+    width: 400px;
+    background-color: aquamarine;
+    justify-content: center;
+    align-items: center;
+}
+
+.action_wrapper_item {
+    padding: 10px 20px;
+    margin: 0px 10px;
+}
+
+.counter {
+    font-size: 50px;
+    font-weight: bold;
+    margin: 20px;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+    align-items: center;
+    flex-direction: column;
+}
+
+.action_wrapper {
+    display: flex;
+}
