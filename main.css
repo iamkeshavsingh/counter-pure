@@ -1,0 +1,30 @@
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+
+.stopwatch_wrapper {
+    width: 400px;
+    height: 300px;
+    background-color: aquamarine;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.timer {
+    display: flex;
+    font-size: 40px;
+    padding: 20px;
+}
+
+
+.stopwatch_actions_item {
+    width: 80px;
+    height: 50px;
+}
