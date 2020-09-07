@@ -11,6 +11,21 @@
 <body>
 
   <h1>Stopwatch</h1>
+  <div class="input_wrapper">
+    <div class="field_group">
+      <label for="">Hours:</label>
+      <input type="text" id="hr" />
+    </div>
+    <div class="field_group">
+      <label for="">Minutes:</label>
+      <input type="text" id="min" />
+    </div>
+    <div class="field_group">
+      <label for="">Seconds:</label>
+      <input type="text" id="sec" />
+    </div>
+    <button class="startCountdownButton">Set Countdown</button>
+  </div>
   <div class="stopwatch_wrapper">
     <div class="timer">
       <div class="hr"></div>
@@ -18,6 +33,9 @@
       <div class="min"></div>
       <div> : </div>
       <div class="sec"></div>
+    </div>
+    <div class="timer_message">
+      Please Set the time
     </div>
     <div class="stopwatch_actions">
       <button class="stopwatch_actions_item start">Start</button>
