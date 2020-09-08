@@ -1,0 +1,68 @@
+* {
+    font-family: 'Inconsolata', monospace;
+}
+
+.border {
+    border: 1px solid black;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+header>h3 {
+    font-weight: bold;
+    font-size: 35px;
+    text-decoration: underline;
+}
+
+section {
+    margin: 20px;
+    padding: 10px;
+    width: 80%;
+}
+
+form {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.form_group {
+    display: flex;
+    align-items: center;
+}
+
+.form_group>label {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.form_group>input {
+    padding: 7px;
+    margin: 5px;
+}
+
+.btn {
+    width: 15%;
+    height: 50px;
+    background-color: rgb(103, 111, 203);
+    color: white;
+}
+
+.todo_items {
+    min-height: 300px;
+    background-color: #ddd;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.todo_no_items {
+    font-size: 50px;
+    font-weight: bold;
+}
