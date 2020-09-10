@@ -1,9 +1,47 @@
 var todos = [];
 
+var form = document.querySelector('.form');
+
+
+var input_helper = (function () {
+    var title = document.querySelector('#title');
+    var description = document.querySelector('#description')
+    var time = document.querySelector('#time')
+
+    function getValues() {
+        return {
+            title: title.value,
+            description: description.value,
+            time: time.value
+        };
+    }
+
+    function reset() {
+        title.value = '';
+        description.value = '';
+        time.value = '';
+    }
+
+    return {
+        getValues,
+        reset
+    };
+})();
+
+
+form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    var todo = input_helper.getValues();
+    todos = todo_helper.createTodo(todos, todo);
+    init();
+    input_helper.reset();
+})
+
 
 var todo_helper = (function () {
 
     function getId(todos) {
+        if (todos.length == 0) return 1;
         return todos[todos.length - 1].id + 1;
     }
 
@@ -36,6 +74,11 @@ var todo_helper = (function () {
 
 })();
 
+function deleteTodoFromList(id) {
+
+    todos = todo_helper.deleteTodo(todos, id);
+    init();
+}
 
 
 function render(todos) {
@@ -51,6 +94,50 @@ function render(todos) {
         }
         else {
 
+            var todoMapToList = todos.map(function (todo) {
+                var todo_item_wrapper = document.createElement('div');
+                todo_item_wrapper.classList.add('todo_item_wrapper');
+
+                var title = document.createElement('h2');
+                var description = document.createElement('h3');
+                var time = document.createElement('h3');
+
+                title.textContent = todo.title;
+                description.textContent = todo.description
+                time.textContent = todo.time;
+
+                var deleteTodo = document.createElement('button');
+                var editTodo = document.createElement('button');
+
+                deleteTodo.textContent = 'Delete';
+                editTodo.textContent = 'Edit';
+
+                deleteTodo.addEventListener('click', function () {
+                    deleteTodoFromList(todo.id);
+                });
+
+                editTodo.addEventListener('click', function () {
+                    console.log('Edit' + todo.id);
+                });
+
+                var content_wrapper = document.createElement('div');
+                var action_wrapper = document.createElement('div');
+
+                content_wrapper.appendChild(title);
+                content_wrapper.appendChild(description);
+
+                action_wrapper.appendChild(deleteTodo);
+                action_wrapper.appendChild(editTodo);
+
+                todo_item_wrapper.appendChild(content_wrapper);
+                todo_item_wrapper.appendChild(time);
+                todo_item_wrapper.appendChild(action_wrapper);
+
+                return todo_item_wrapper;
+            });
+
+            return todoMapToList;
+
         }
     }
     else {
@@ -58,15 +145,30 @@ function render(todos) {
     }
 }
 
+
 var updateContent = (function () {
 
     var todo_items = document.querySelector('.todo_items');
 
 
     return function (content) {
-        todo_items.innerHTML = content;
+        todo_items.innerHTML = '';
+        if (Array.isArray(content)) {
+            content.reduce(function (acc, val) {
+                acc.appendChild(val);
+                return acc;
+            }, todo_items);
+        }
+        else {
+            todo_items.appendChild(content);
+        }
     }
 })();
 
-var content = render(todos);
-updateContent(content);
+
+function init() {
+    var content = render(todos);
+    updateContent(content);
+}
+
+init();

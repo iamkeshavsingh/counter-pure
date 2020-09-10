@@ -58,11 +58,21 @@ form {
     background-color: #ddd;
     padding: 10px;
     display: flex;
-    justify-content: center;
     align-items: center;
+    flex-direction: column;
 }
 
-.todo_no_items {
+.todos_no_items {
     font-size: 50px;
     font-weight: bold;
+}
+
+.todo_item_wrapper {
+    align-self: stretch;
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    align-items: center;
+    margin: 20px 0px;
 }
