@@ -1,4 +1,8 @@
-var todos = [];
+var state = {
+    todos: [],
+    isEdit: false,
+    id: null
+};
 
 var form = document.querySelector('.form');
 
@@ -22,9 +26,16 @@ var input_helper = (function () {
         time.value = '';
     }
 
+    function fill(todo) {
+        title.value = todo.title;
+        description.value = todo.description;
+        time.value = todo.time;
+    }
+
     return {
         getValues,
-        reset
+        reset,
+        fill
     };
 })();
 
@@ -32,30 +43,51 @@ var input_helper = (function () {
 form.addEventListener('submit', function (event) {
     event.preventDefault();
     var todo = input_helper.getValues();
-    todos = todo_helper.createTodo(todos, todo);
+
+    if (state.isEdit) {
+
+        state.todos = todo_helper.editTodo(state.id, todo);
+
+        state.isEdit = false;
+    }
+    else {
+        state.todos = todo_helper.createTodo(todo);
+    }
+
     init();
     input_helper.reset();
 })
 
 
-var todo_helper = (function () {
+var todo_helper = (function (state) {
 
-    function getId(todos) {
+    function getTodo(todoId) {
+        var { todos } = state;
+        return todos.find(function (todo) {
+            return todo.id === todoId;
+        });
+    }
+
+    function getId() {
+        var { todos } = state;
         if (todos.length == 0) return 1;
         return todos[todos.length - 1].id + 1;
     }
 
-    function createTodo(todos, newTodo) {
+    function createTodo(newTodo) {
+        var { todos } = state;
         return [...todos, { ...newTodo, id: getId(todos) }];
     }
 
-    function deleteTodo(todos, todoId) {
+    function deleteTodo(todoId) {
+        var { todos } = state;
         return todos.filter(function (todo) {
             return todo.id !== todoId;
         });
     }
 
-    function editTodo(todos, todoId, newTodo) {
+    function editTodo(todoId, newTodo) {
+        var { todos } = state;
         var idx = todos.findIndex(function (todo) {
             return todo.id === todoId;
         });
@@ -69,14 +101,15 @@ var todo_helper = (function () {
     return {
         createTodo,
         editTodo,
-        deleteTodo
+        deleteTodo,
+        getTodo
     };
 
-})();
+})(state);
 
 function deleteTodoFromList(id) {
 
-    todos = todo_helper.deleteTodo(todos, id);
+    state.todos = todo_helper.deleteTodo(id);
     init();
 }
 
@@ -117,7 +150,10 @@ function render(todos) {
                 });
 
                 editTodo.addEventListener('click', function () {
-                    console.log('Edit' + todo.id);
+                    var newTodo = todo_helper.getTodo(todo.id);
+                    input_helper.fill(newTodo);
+                    state.isEdit = true;
+                    state.id = todo.id;
                 });
 
                 var content_wrapper = document.createElement('div');
@@ -167,7 +203,7 @@ var updateContent = (function () {
 
 
 function init() {
-    var content = render(todos);
+    var content = render(state.todos);
     updateContent(content);
 }
 
